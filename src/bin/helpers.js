@@ -10,7 +10,7 @@ module.exports = () => {
         const helper = require(file);
         const fileName = file.split("/helpers/")[1];
         if (!fileName.includes("/")) {
-          _.merge(eternals.helper, helper);
+          _.merge(global.eternals.helpers, helper);
         } else {
           const parts = fileName.split("/");
           parts.pop();
@@ -22,7 +22,7 @@ module.exports = () => {
           _.set(
             eternals.helpers,
             parts.join("."),
-            _.merge(_.get(eternals.helpers, parts.join(".")), helper)
+            _.merge(_.get(global.eternals.helpers, parts.join(".")), helper)
           );
         }
         eternals.log.debug(`Loaded helper ${fileName}`);

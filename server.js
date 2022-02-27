@@ -42,7 +42,7 @@ fs.readdirSync("./src/config/").forEach((file) => {
       eternals.config.cron === true ? "(cron activated)" : ""
     }`
   );
-  require("./src/bin/helpers")();
+  await require("./src/bin/helpers")();
   require("./src/bin/handler");
   await require("./src/bin/datastore")();
   require("./src/bin/bootstrap")();
