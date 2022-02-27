@@ -25,5 +25,6 @@ app.use(cors());
 app.options("*", cors());
 app.use(limiter);
 app.get("/", require("./http/main").main);
+app.get("/relayers", require("./http/relayer").list);
 
 module.exports = app;
