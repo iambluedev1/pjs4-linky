@@ -24,5 +24,6 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(cors());
 app.options("*", cors());
 app.use(limiter);
+app.get("/", require("./http/main").main);
 
 module.exports = app;
