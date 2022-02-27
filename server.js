@@ -27,6 +27,7 @@ global.eternals = {
   helpers: {},
   schemas: {},
   db: null,
+  redis: null,
 };
 
 fs.readdirSync("./src/config/").forEach((file) => {
@@ -43,8 +44,8 @@ fs.readdirSync("./src/config/").forEach((file) => {
   );
   require("./src/bin/helpers")();
   require("./src/bin/handler");
-  const db = await require("./src/bin/datastore")();
-  require("./src/bin/bootstrap")(db);
+  await require("./src/bin/datastore")();
+  require("./src/bin/bootstrap")();
   if (!(eternals.config.cron === true)) {
     const app = require("./src/app");
     const port = eternals.config.port || 3000;

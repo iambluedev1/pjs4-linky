@@ -47,8 +47,13 @@ module.exports = async () => {
     eternals.log.info(
       "Connection to the redis instance has been established successfully."
     );
+    eternals.redis = client;
   } catch (error) {
     eternals.log.error("Unable to connect to the redis instance", error);
     process.exit(-1);
   }
+
+  eternals.redis.on("error", (error) =>
+    eternals.log.error("Redis ERROR", error)
+  );
 };
