@@ -30,4 +30,9 @@ app.get("/players", require("./http/player").list);
 
 app.get("/auth/token", require("./http/user").getToken);
 app.get("/auth/verify", require("./http/user").verify);
+
+app.get("/subscription/plans", require("./http/subsription").plans);
+app.get("/subscription/check", require("./http/subsription").checkSubscription);
+app.get("/subscription/subscribe", require("./http/subsription").subscribe);
+
 module.exports = app;
