@@ -28,4 +28,6 @@ app.get("/", require("./http/main").main);
 app.get("/relayers", require("./http/relayer").list);
 app.get("/players", require("./http/player").list);
 
+app.get("/auth/token", require("./http/user").getToken);
+app.get("/auth/verify", require("./http/user").verify);
 module.exports = app;
