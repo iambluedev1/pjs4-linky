@@ -1,7 +1,5 @@
-const ethers = require("ethers");
 const web3 = require("web3");
-const { JsonRpcProvider } = require("@ethersproject/providers");
-const crypto = require("crypto");
+const { contracts } = require("@eternals/provider");
 
 module.exports = {
   plans: async (req, res) => {
@@ -42,21 +40,10 @@ module.exports = {
       });
     }
 
-    // TODO: mutualisation du provider / contract
-    const provider = new JsonRpcProvider(
-      "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
-    );
-    const contract = new ethers.Contract(
-      "0x7fcb08f177ef74ba5b8ed65c9c42489a5ddb8035",
-      [
-        "function isAccountStillSubscribed(address _account) public view returns (bool,uint256,uint256)",
-      ],
-      provider
-    );
+    const { Subscription } = eternals.provider.contracts;
 
-    const [isSubscribed, until, plan] = await contract.isAccountStillSubscribed(
-      publicAddress
-    );
+    const [isSubscribed, until, plan] =
+      await Subscription.isAccountStillSubscribed(publicAddress);
 
     return res.json({
       publicAddress,
@@ -99,30 +86,16 @@ module.exports = {
       });
     }
 
-    const contract = new ethers.utils.Interface([
-      "function subscribe(uint256 _choice)",
-    ]);
+    const { Subscription } =
+      eternals.provider.withSalt(publicAddress).contracts;
 
-    // TODO : mutualisation de cette partie
-    const iv = crypto.randomBytes(16);
-    const hash = crypto.createHash("sha1");
-    hash.update(publicAddress);
-
-    const cipher = crypto.createCipheriv(
-      "aes-128-cbc",
-      Buffer.from(hash.digest("binary").substring(0, 16), "binary"),
-      iv
-    );
-    const encrypted = Buffer.concat([
-      cipher.update(contract.encodeFunctionData("subscribe", [plan])),
-      cipher.final(),
-    ]);
+    const { data, iv } = await Subscription.subscribe(plan);
 
     return res.json({
       publicAddress,
-      contract: "0x7fcb08f177ef74ba5b8ed65c9c42489a5ddb8035", // TODO: mutualisation de l'addr + ABI
-      d: encrypted.toString("hex"),
-      i: iv.toString("hex"),
+      contract: contracts.Subscription.address,
+      d: data,
+      i: iv,
     });
   },
 };

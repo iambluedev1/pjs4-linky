@@ -4,6 +4,8 @@ require("dotenv").config();
 const fs = require("fs");
 const _ = require("lodash");
 const yargs = require("yargs");
+const { Provider } = require("@eternals/provider");
+const { JsonRpcProvider } = require("@ethersproject/providers");
 
 const args = yargs
   .option("cron", {
@@ -28,6 +30,7 @@ global.eternals = {
   schemas: {},
   db: null,
   redis: null,
+  provider: new Provider(new JsonRpcProvider(process.env.RPC_URL)),
 };
 
 fs.readdirSync("./src/config/").forEach((file) => {
