@@ -67,26 +67,9 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@eternals/provider@https://github.com/eternalsapp/provider#v1.0.0":
-  version "1.0.0"
-  resolved "https://github.com/eternalsapp/provider#67549a9a50f4d815fa52fd14e919157b779d9a83"
-  dependencies:
-    "@ethersproject/providers" "^5.5.3"
-    crypto "^1.0.1"
-    eslint "^7.11.0"
-    eslint-config-airbnb "^18.2.0"
-    eslint-config-prettier "^6.12.0"
-    eslint-plugin-import "^2.22.1"
-    eslint-plugin-jsx-a11y "^6.3.1"
-    eslint-plugin-node "^11.1.0"
-    eslint-plugin-prettier "^3.1.4"
-    eslint-plugin-react "^7.21.4"
-    ethers "^5.5.4"
-    web3 "^1.7.0"
-
-"@eternals/provider@https://github.com/eternalsapp/provider#v1.0.1":
-  version "1.0.1"
-  resolved "https://github.com/eternalsapp/provider#502064644a9fee9e51fdc9a376e9808a387ada83"
+"@eternals/provider@https://github.com/eternalsapp/provider#v1.0.2":
+  version "1.0.2"
+  resolved "https://github.com/eternalsapp/provider#456963c64aececf66e4fc608ea5a64da71cdccc5"
   dependencies:
     "@ethersproject/providers" "^5.5.3"
     crypto "^1.0.1"
