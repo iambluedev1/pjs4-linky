@@ -7,9 +7,4 @@ module.exports.log = {
   metadata: {
     fillExcept: ["message", "level", "timestamp", "label"],
   },
-  email: {
-    to: process.env.LIST_DEV_EMAIL,
-    logLinesCount: 100,
-    wait: 10,
-  },
 };

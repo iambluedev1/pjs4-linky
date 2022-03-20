@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Linky.</title>
+
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div class="container pt-4">
+
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Mon dashboard Linky <span id="selected_compteurs"></span></h1>
+                        <div>
+                            <small>Compteur : </small>
+                            <a href="/" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fa-sm text-white-50"></i> tous</a>
+                            <span id="compteurs"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Puissance apparente (temps réel)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span
+                                                    id="socket_papp">loading...</span></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Estimation facture (sur le mois)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span
+                                                    id="estimation_current_month">Loading...</span></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow mb-4" data-chart="PAPP" data-chart-precision="DAILY"
+                                data-chart-unit="VA">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Consommation électrique</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Précision:</div>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="LAST_1_HOURS">LAST 1 HOURS</button>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="LAST_6_HOURS">LAST 6 HOURS</button>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="MONTHLY">MONTHLY</button>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="WEEKLY">WEEKLY</button>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="DAILY">DAILY</button>
+                                            <div class="dropdown-header">Date:</div>
+                                            <input data-chart-range="from" class="dropdown-item" type="date"
+                                                placeholder="aaaa-mm-jj" pattern="\d\d\d\d-\d\d-\d\d" />
+                                            <input data-chart-range="to" class="dropdown-item" type="date"
+                                                placeholder="aaaa-mm-jj" pattern="\d\d\d\d-\d\d-\d\d" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <span data-chart-loader>Loading...</span>
+                                        <canvas></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card shadow mb-4" data-chart="BASE" data-chart-precision="DAILY"
+                                data-chart-unit="€">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Estimation de la facture</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Précision:</div>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="LAST_1_HOURS">LAST 1 HOURS</button>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="LAST_6_HOURS">LAST 6 HOURS</button>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="MONTHLY">MONTHLY</button>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="WEEKLY">WEEKLY</button>
+                                            <button class="dropdown-item"
+                                                data-chart-precision-selector="DAILY">DAILY</button>
+                                            <div class="dropdown-header">Date:</div>
+                                            <input data-chart-range="from" class="dropdown-item" type="date"
+                                                placeholder="aaaa-mm-jj" pattern="\d\d\d\d-\d\d-\d\d" />
+                                            <input data-chart-range="to" class="dropdown-item" type="date"
+                                                placeholder="aaaa-mm-jj" pattern="\d\d\d\d-\d\d-\d\d" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <span data-chart-loader>Loading...</span>
+                                        <canvas></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

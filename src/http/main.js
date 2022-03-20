@@ -1,11 +1,8 @@
-const packageCfg = require("../../package.json");
+const path = require("path");
 
 module.exports = {
-  main: async (req, res) => {
-    return res.json({
-      name: "Eternals",
-      namespace: packageCfg.name,
-      version: packageCfg.version,
-    });
+  main: (req, res) => {
+    // On envoit le fichier html
+    res.sendFile(path.join(__dirname, "../view/index.html"));
   },
 };

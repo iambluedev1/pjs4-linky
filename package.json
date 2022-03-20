@@ -1,5 +1,5 @@
 {
-  "name": "@eternals/api",
+  "name": "@linky/server",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -7,16 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js",
-    "start": "node server.js -c false",
-    "start:cron": "node server.js -c true"
+    "start": "node server.js"
   },
-  "author": "Guillaume Chalons",
+  "author": "Théo Villano",
   "license": "ISC",
   "dependencies": {
-    "@eternals/provider": "https://github.com/eternalsapp/provider#v1.0.2",
-    "@ethersproject/providers": "^5.5.3",
     "captains-log": "^2.0.3",
-    "cheerio": "^1.0.0-rc.3",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -28,25 +24,16 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.4",
-    "ethers": "^5.5.4",
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.3",
     "helmet": "^4.1.1",
-    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
-    "nanoid": "^3.3.1",
-    "node-cron": "^2.0.3",
     "node-fetch": "^2.6.1",
-    "nodemailer": "^6.4.16",
-    "nodemailer-smtp-transport": "^2.7.4",
     "pg": "^8.7.3",
-    "read-last-lines": "^1.7.2",
-    "redis": "^4.0.4",
     "sequelize": "^6.17.0",
-    "web3": "^1.7.0",
-    "winston": "^3.3.3",
-    "yargs": "^13.3.2"
+    "socket.io": "^4.4.1",
+    "winston": "^3.3.3"
   }
 }

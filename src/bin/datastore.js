@@ -2,13 +2,13 @@
 /* eslint-disable global-require */
 const fs = require("fs");
 const Sequelize = require("sequelize");
-const { createClient } = require("redis");
 
 const sequelize = new Sequelize(
-  `postgres://${eternals.config.sequelize.auth.user}:${eternals.config.sequelize.auth.password}@${eternals.config.sequelize.auth.host}:${eternals.config.sequelize.auth.port}/${eternals.config.sequelize.auth.database}`,
+  `postgres://${linky.config.sequelize.auth.user}:${linky.config.sequelize.auth.password}@${linky.config.sequelize.auth.host}:${linky.config.sequelize.auth.port}/${linky.config.sequelize.auth.database}`,
   {
     logging: false,
     dialectOptions: {
+      // avec heroku, il faut obligatoirement specifier ces paramètres pour pouvoir se connecter au serveur (cetificat auto-géré)
       ssl: {
         require: true,
         rejectUnauthorized: false,
@@ -20,40 +20,17 @@ const sequelize = new Sequelize(
 module.exports = async () => {
   try {
     await sequelize.authenticate();
-    eternals.log.info(
+    linky.log.info(
       "Connection to the datastore has been established successfully."
     );
-    eternals.db = sequelize;
+    linky.db = sequelize;
     fs.readdirSync("./src/schema/").forEach((file) => {
       require(`../schema/${file}`);
     });
 
     // sequelize.sync({ logging: console.log });
   } catch (error) {
-    eternals.log.error("Unable to connect to the database", error);
+    linky.log.error("Unable to connect to the database", error);
     process.exit(-1);
   }
-
-  const client = createClient({
-    url: `redis://:${eternals.config.redis.auth.password}@${eternals.config.redis.auth.host}:${eternals.config.redis.auth.port}`,
-    socket: {
-      tls: true,
-      rejectUnauthorized: false,
-    },
-  });
-
-  try {
-    await client.connect();
-    eternals.log.info(
-      "Connection to the redis instance has been established successfully."
-    );
-    eternals.redis = client;
-  } catch (error) {
-    eternals.log.error("Unable to connect to the redis instance", error);
-    process.exit(-1);
-  }
-
-  eternals.redis.on("error", (error) =>
-    eternals.log.error("Redis ERROR", error)
-  );
 };
