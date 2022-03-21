@@ -1,5 +1,8 @@
+/* eslint-disable no-case-declarations */
 const moment = require("moment");
 const { Op } = require("sequelize");
+
+moment.locale("fr");
 
 module.exports = {
   display: async (req, res) => {
@@ -18,6 +21,9 @@ module.exports = {
           break;
         case "LAST_6_HOURS":
           from = moment().subtract(6, "hour"); // On retire 6 heures
+          break;
+        case "LAST_24_HOURS":
+          from = moment().subtract(24, "hour"); // On retire 24 heures
           break;
         case "WEEKLY":
           from = moment().subtract(6, "month"); // On retire 6 mois
@@ -59,9 +65,27 @@ module.exports = {
         // On groupe par date suivant la précision que l'on souhaite
         switch (precision) {
           case "LAST_1_HOURS":
-            return moment(b.at).format("HH:mm DD-MM"); // Format : heure:minutes-mois-année
+            const minutes1 = parseInt(moment(b.at).format("mm"), 10);
+            const t1 = (Math.ceil(minutes1 / 10) * 10).toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            });
+
+            return `${moment(b.at).format("HH")}:${t1}-${moment(b.at).format(
+              "DD-MM"
+            )}`; // Format : heure:minutes-mois-année
           case "LAST_6_HOURS":
-            return moment(b.at).format("HH:mm DD-MM"); // Format : heure:minutes-mois-année
+            const minutes2 = parseInt(moment(b.at).format("mm"), 10);
+            const t2 = (Math.ceil(minutes2 / 30) * 30).toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            });
+
+            return `${moment(b.at).format("HH")}:${t2}-${moment(b.at).format(
+              "DD-MM"
+            )}`;
+          case "LAST_24_HOURS":
+            return moment(b.at).add(1, "hour").format("HH-DD"); // Format : heure-jour
           case "WEEKLY":
             return moment(b.at).format("W-MM-YYYY"); // Format : numérodelasemaine-mois-année
           case "DAILY":
@@ -130,10 +154,22 @@ module.exports = {
         format: "DD-YYYY",
         value: 0,
       }));
-    } else if (precision === "LAST_6_HOURS" || precision === "LAST_1_HOURS") {
-      pattern = _.range(toCpy.diff(from, "minutes") / 5).map(() => ({
-        date: toCpy.subtract(5, "minutes").format("HH:mm DD-MM"), // Format : mois-année
-        format: "HH:mm DD-MM",
+    } else if (precision === "LAST_6_HOURS") {
+      pattern = _.range(toCpy.diff(from, "minutes") / 30).map(() => ({
+        date: toCpy.subtract(30, "minutes").format("HH:mm-DD-MM"), // Format : mois-année
+        format: "HH:mm-DD-MM",
+        value: 0,
+      }));
+    } else if (precision === "LAST_1_HOURS") {
+      pattern = _.range(toCpy.diff(from, "minutes") / 10).map(() => ({
+        date: toCpy.subtract(10, "minutes").format("HH:mm-DD-MM"), // Format : mois-année
+        format: "HH:mm-DD-MM",
+        value: 0,
+      }));
+    } else if (precision === "LAST_24_HOURS") {
+      pattern = _.range(toCpy.diff(from, "hour")).map(() => ({
+        date: toCpy.subtract(1, "hour").format("HH-DD"), // Format : heure-jour
+        format: "HH-DD",
         value: 0,
       }));
     }

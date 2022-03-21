@@ -63,7 +63,8 @@ io.of("/sockets/aggregator").on("connection", (socket) => {
   // Lorsqu'un aggreagator se connecte
   linky.log.debug("New aggregator connected to sockets");
 
-  socket.on("data.array", async (data) => {
+  socket.on("data", async (data) => {
+    console.log(data);
     if (data.label === "PAPP") {
       io.of("/sockets/datas").emit("data", data);
     }
@@ -88,6 +89,9 @@ io.of("/sockets/aggregator").on("connection", (socket) => {
       }).then(() => {
         linky.log.debug(`New measures : ${data.label} - ${data.value}`);
       });
+      console.log("write");
+    } else {
+      console.log("no write");
     }
   });
 });

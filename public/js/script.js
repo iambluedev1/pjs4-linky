@@ -5,9 +5,10 @@
 /* global Chart */
 
 // On définit en dure le prix du wh
-const EDF_PRICE_WH = 0.0174;
+const EDF_PRICE_WH = 0.174 / 1000;
 
 const chartsCtx = {};
+const pappCpt = {};
 
 Chart.defaults.global.defaultFontFamily = "Nunito";
 Chart.defaults.global.defaultFontColor = "#858796";
@@ -93,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         json.forEach((id) => {
           compteurs.innerHTML += template(id);
+          pappCpt[id] = 0;
         });
 
         linkyIds = json;
@@ -131,9 +133,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Puis on regarde si on est entrain de regarder un compteur précis au quel cas, on verifie que la donnée reçu correspond bien à ce compteur
     if (
       data.label === "PAPP" &&
-      ((linkyId && data.idLinky === linkyId) || !linkyId)
+      ((linkyId && data.linkyId === linkyId) || !linkyId)
     ) {
-      socketPappSpan.innerText = `${data.value} VA`;
+      pappCpt[data.linkyId] = parseInt(data.value, 10);
+
+      if (linkyId) {
+        socketPappSpan.innerText = `${pappCpt[linkyId]} VA`;
+      } else {
+        socketPappSpan.innerText = `${Object.values(pappCpt).reduce(
+          (acc, value) => acc + value,
+          0
+        )} VA`;
+      }
     }
   });
 
@@ -167,7 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
           pointHitRadius: 10,
           pointBorderWidth: 2,
           data: json.mesures.map(
-            (m) => (json.label === "PAPP" ? m.value : m.value.difference) // La structure des mesures différes suivant le type de mesure
+            (m) =>
+              json.label === "PAPP"
+                ? m.value
+                : m.value.difference * EDF_PRICE_WH // La structure des mesures différes suivant le type de mesure
           ),
         });
 
