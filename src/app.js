@@ -80,7 +80,10 @@ io.of("/sockets/aggregator").on("connection", (socket) => {
       },
     });
 
-    if (!moment(mesure.at).isAfter(moment().subtract(5, "minutes"))) {
+    if (
+      mesure === null ||
+      !moment(mesure.at).isAfter(moment().subtract(5, "minutes"))
+    ) {
       Mesure.create({
         idLinky: data.linkyId,
         value: data.value,
